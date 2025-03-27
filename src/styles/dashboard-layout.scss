@@ -1,0 +1,276 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  
+  .dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    padding: 0 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    
+    @media (max-width: 768px) {
+      padding: 0 0.75rem;
+    }
+    
+    .header-left {
+      display: flex;
+      align-items: center;
+      
+      .logo-container {
+        .logo {
+          width: 120px;
+        }
+      }
+      
+      .menu-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: none;
+        border: none;
+        margin-left: 1rem;
+        cursor: pointer;
+        
+        @media (max-width: 992px) {
+          display: flex;
+        }
+      }
+    }
+    
+    .header-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      
+      .search-container {
+        display: flex;
+        width: 100%;
+        max-width: 400px;
+        
+        .search-input {
+          flex: 1;
+          padding: 0.5rem 1rem;
+          border: 1px solid #D9DBE9;
+          border-right: none;
+          background: transparent;
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+          color: #545F7D;
+          font-size: 0.875rem;
+          
+          &:focus {
+            outline: none;
+          }
+        }
+        
+        .search-button {
+          background-color: #39CDCC;
+          border: none;
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+          padding: 0 1rem;
+          cursor: pointer;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+    
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      
+      .docs-link {
+        color: #213F7D;
+        text-decoration: underline;
+        font-size: 0.875rem;
+        
+        @media (max-width: 768px) {
+          display: none;
+        }
+      }
+      
+      .notifications {
+        color: #213F7D;
+        cursor: pointer;
+      }
+      
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        
+        .avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+        
+        .username {
+          color: #213F7D;
+          font-size: 0.875rem;
+          font-weight: 500;
+          
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+      }
+    }
+    
+    @media (max-width: 576px) {
+      gap: 0.75rem;
+    }
+  }
+  
+  .dashboard-content {
+    display: flex;
+    margin-top: 60px;
+    min-height: calc(100vh - 60px);
+    
+    .dashboard-sidebar {
+      width: 260px;
+      background-color: #fff;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+      overflow-y: auto;
+      height: calc(100vh - 60px);
+      position: fixed;
+      top: 60px;
+      left: 0;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      z-index: 1000;
+      
+      @media (max-width: 992px) {
+        width: 280px;
+        transform: translateX(-100%);
+        box-shadow: none;
+        z-index: 99;
+        
+        &.open {
+          transform: translateX(0);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+      }
+      
+      .sidebar-content {
+        padding: 1.5rem 0;
+        
+        .sidebar-section {
+          margin-bottom: 1.5rem;
+          
+          .section-title {
+            padding: 0 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #545F7D;
+          }
+          
+          .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #213F7D;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            
+            &:hover {
+              background-color: rgba(57, 205, 204, 0.1);
+            }
+            
+            &.active {
+              background-color: rgba(57, 205, 204, 0.1);
+              border-left: 3px solid #39CDCC;
+            }
+            
+            &.organization {
+              margin-bottom: 1.5rem;
+            }
+            
+            &.logout {
+              color: #E4033B;
+            }
+            
+            .item-icon {
+              font-size: 1rem;
+            }
+            
+            .item-text {
+              flex: 1;
+            }
+          }
+          
+          .version {
+            padding: 0 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #545F7D;
+          }
+        }
+        
+        @media (max-width: 992px) {
+          padding-bottom: 5rem; // Add extra padding at the bottom for mobile scrolling
+        }
+      }
+    }
+
+    .dashboard-sidebar::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .sidebar-backdrop {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+      
+      @media (max-width: 992px) {
+        display: block;
+      }
+    }
+    
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      padding: 2rem;
+      background-color: #FBFBFB;
+      
+      @media (max-width: 992px) {
+        margin-left: 0;
+        padding: 1.5rem 1rem;
+      }
+      
+      @media (max-width: 576px) {
+        padding: 1rem 0.75rem;
+      }
+    }
+  }
+}
+
+// Add this to prevent body scrolling when sidebar is open on mobile
+body.sidebar-open {
+  @media (max-width: 992px) {
+    overflow: hidden;
+  }
+}
+
