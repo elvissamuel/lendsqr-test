@@ -835,7 +835,7 @@ const UsersPage = () => {
             value={rowsPerPage}
             onChange={(e) => {
               setRowsPerPage(Number(e.target.value))
-              setCurrentPage(1) // Reset to first page when changing rows per page
+              setCurrentPage(1) 
             }}
           >
             <option value="10">10</option>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { ArrowLeft, Star } from "lucide-react"
 import "../styles/user-details-page.scss"
 
@@ -43,7 +43,6 @@ const mockUserDetails = {
 }
 
 const UserDetailsPage = () => {
-  const { id } = useParams<{ id: string }>()
   const [activeTab, setActiveTab] = useState("general")
 
   // In a real app, you would fetch user data based on the ID
