@@ -4,97 +4,24 @@ import { useState, useRef, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Filter, MoreVertical, ChevronLeft, ChevronRight, Calendar } from "lucide-react"
 import "../styles/users-page.scss"
-
-// Mock data for users
-const mockUsers = [
-  {
-    id: 1,
-    orgName: "Lendsqr",
-    username: "Adedeji",
-    email: "adedeji@lendsqr.com",
-    phoneNumber: "08078903721",
-    dateJoined: "May 15, 2020 10:00 AM",
-    status: "Inactive",
-  },
-  {
-    id: 2,
-    orgName: "Irorun",
-    username: "Debby Ogana",
-    email: "debby@irorun.com",
-    phoneNumber: "08160780928",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    orgName: "Lendsqr",
-    username: "Grace Effiom",
-    email: "grace@lendsqr.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Blacklisted",
-  },
-  {
-    id: 4,
-    orgName: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08130780925",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    orgName: "Lendsqr",
-    username: "Grace Effiom",
-    email: "grace@lendsqr.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Active",
-  },
-  {
-    id: 6,
-    orgName: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08130780925",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Active",
-  },
-  {
-    id: 7,
-    orgName: "Lendsqr",
-    username: "Grace Effiom",
-    email: "grace@lendsqr.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Inactive",
-  },
-  {
-    id: 8,
-    orgName: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08130780925",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Inactive",
-  },
-]
-
-// Get unique organizations from mock data
-const organizations = Array.from(new Set(mockUsers.map((user) => user.orgName)))
+import { useUsers } from "../context/useUser"
+import type { IUser } from "../models"
 
 const UsersPage = () => {
+  const { data: mockUsers, isLoading, error } = useUsers()
+  const organizations = Array.from(new Set(mockUsers?.map((user) => user.orgName)))
   const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState(100)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [activeFilterColumn, setActiveFilterColumn] = useState<string | null>(null)
-  const [filteredUsers, setFilteredUsers] = useState(mockUsers)
+  const [filteredUsers, setFilteredUsers] = useState(mockUsers || [])
+  const [displayedUsers, setDisplayedUsers] = useState<typeof mockUsers>()
+  const [totalPages, setTotalPages] = useState(1)
 
   // Filter state
   const [filters, setFilters] = useState({
     organization: "",
-    username: "",
+    userName: "",
     email: "",
     date: "",
     phoneNumber: "",
@@ -108,6 +35,22 @@ const UsersPage = () => {
   const setFilterRef = (column: string) => (el: HTMLDivElement | null) => {
     filterRefs.current[column] = el
   }
+
+  useEffect(() => {
+    // Calculate total pages
+    const calculatedTotalPages = Math.ceil(filteredUsers.length / rowsPerPage)
+    setTotalPages(calculatedTotalPages)
+
+    // Ensure current page is valid
+    if (currentPage > calculatedTotalPages && calculatedTotalPages > 0) {
+      setCurrentPage(calculatedTotalPages)
+    }
+
+    // Get users for current page
+    const startIndex = (currentPage - 1) * rowsPerPage
+    const endIndex = startIndex + rowsPerPage
+    setDisplayedUsers(filteredUsers.slice(startIndex, endIndex))
+  }, [filteredUsers, currentPage, rowsPerPage])
 
   // Close filter dropdown when clicking outside
   useEffect(() => {
@@ -127,6 +70,16 @@ const UsersPage = () => {
     }
   }, [activeFilterColumn])
 
+  // Initialize filteredUsers and displayedUsers when mockUsers changes
+  useEffect(() => {
+    if (mockUsers) {
+      setFilteredUsers(mockUsers)
+      const startIndex = (currentPage - 1) * rowsPerPage
+      const endIndex = startIndex + rowsPerPage
+      setDisplayedUsers(mockUsers.slice(startIndex, endIndex))
+    }
+  }, [mockUsers, currentPage, rowsPerPage])
+
   const toggleDropdown = (userId: number) => {
     setActiveDropdown(activeDropdown === userId ? null : userId)
   }
@@ -143,14 +96,14 @@ const UsersPage = () => {
   }
 
   const applyFilters = () => {
-    let result = mockUsers
+    let result = mockUsers as IUser[]
 
     if (filters.organization) {
       result = result.filter((user) => user.orgName.toLowerCase() === filters.organization.toLowerCase())
     }
 
-    if (filters.username) {
-      result = result.filter((user) => user.username.toLowerCase().includes(filters.username.toLowerCase()))
+    if (filters.userName) {
+      result = result.filter((user) => user.userName.toLowerCase().includes(filters.userName.toLowerCase()))
     }
 
     if (filters.email) {
@@ -158,7 +111,7 @@ const UsersPage = () => {
     }
 
     if (filters.date) {
-      result = result.filter((user) => user.dateJoined.includes(filters.date))
+      result = result.filter((user) => user.createdAt.includes(filters.date))
     }
 
     if (filters.phoneNumber) {
@@ -170,19 +123,21 @@ const UsersPage = () => {
     }
 
     setFilteredUsers(result)
+    setCurrentPage(1)
     setActiveFilterColumn(null)
   }
 
   const resetFilters = () => {
     setFilters({
       organization: "",
-      username: "",
+      userName: "",
       email: "",
       date: "",
       phoneNumber: "",
       status: "",
     })
-    setFilteredUsers(mockUsers)
+    setFilteredUsers(mockUsers ?? [])
+    setCurrentPage(1)
     setActiveFilterColumn(null)
   }
 
@@ -200,6 +155,59 @@ const UsersPage = () => {
         return ""
     }
   }
+
+  const generatePageNumbers = () => {
+    const pageNumbers = []
+    const maxPagesToShow = 5
+
+    if (totalPages <= maxPagesToShow) {
+      // If we have fewer pages than the max to show, display all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i)
+      }
+    } else {
+      // Always include first page
+      pageNumbers.push(1)
+
+      // Calculate start and end of middle pages
+      let startPage = Math.max(2, currentPage - 1)
+      let endPage = Math.min(totalPages - 1, currentPage + 1)
+
+      // Adjust if we're near the beginning
+      if (currentPage <= 3) {
+        endPage = 4
+      }
+
+      // Adjust if we're near the end
+      if (currentPage >= totalPages - 2) {
+        startPage = totalPages - 3
+      }
+
+      // Add ellipsis after first page if needed
+      if (startPage > 2) {
+        pageNumbers.push("ellipsis1")
+      }
+
+      // Add middle pages
+      for (let i = startPage; i <= endPage; i++) {
+        pageNumbers.push(i)
+      }
+
+      // Add ellipsis before last page if needed
+      if (endPage < totalPages - 1) {
+        pageNumbers.push("ellipsis2")
+      }
+
+      // Always include last page
+      pageNumbers.push(totalPages)
+    }
+
+    return pageNumbers
+  }
+
+  const pageNumbers = generatePageNumbers()
+  if (isLoading) return <p>Loading users...</p>
+  if (error) return <p>Error: {error.message}</p>
 
   return (
     <div className="users-page">
@@ -260,7 +268,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -346,7 +354,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -432,7 +440,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -518,7 +526,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -604,7 +612,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -690,7 +698,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
-                            value={filters.username}
+                            value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
                         </div>
@@ -751,13 +759,13 @@ const UsersPage = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user) => (
+            {displayedUsers?.map((user) => (
               <tr key={user.id}>
                 <td>{user.orgName}</td>
-                <td>{user.username}</td>
+                <td>{user.userName}</td>
                 <td>{user.email}</td>
                 <td>{user.phoneNumber}</td>
-                <td>{user.dateJoined}</td>
+                <td>{user.createdAt}</td>
                 <td>
                   <span className={`status-badge ${getStatusClass(user.status)}`}>{user.status}</span>
                 </td>
@@ -779,7 +787,7 @@ const UsersPage = () => {
                 </td>
               </tr>
             ))}
-            {filteredUsers.length === 0 && (
+            {displayedUsers?.length === 0 && (
               <tr>
                 <td colSpan={7} className="no-results">
                   No users match your filter criteria
@@ -793,13 +801,20 @@ const UsersPage = () => {
       <div className="table-footer">
         <div className="rows-per-page">
           <span>Showing</span>
-          <select value={rowsPerPage} onChange={(e) => setRowsPerPage(Number(e.target.value))}>
+          <select
+            value={rowsPerPage}
+            onChange={(e) => {
+              setRowsPerPage(Number(e.target.value))
+              setCurrentPage(1) // Reset to first page when changing rows per page
+            }}
+          >
+            {/* <option value="5">5</option> */}
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>
             <option value="100">100</option>
           </select>
-          <span>out of {filteredUsers.length}</span>
+          <span>out of {filteredUsers?.length}</span>
         </div>
 
         <div className="pagination">
@@ -812,30 +827,29 @@ const UsersPage = () => {
           </button>
 
           <div className="pagination-pages">
-            <button className={`page-number ${currentPage === 1 ? "active" : ""}`} onClick={() => setCurrentPage(1)}>
-              1
-            </button>
-            <button className={`page-number ${currentPage === 2 ? "active" : ""}`} onClick={() => setCurrentPage(2)}>
-              2
-            </button>
-            <button className={`page-number ${currentPage === 3 ? "active" : ""}`} onClick={() => setCurrentPage(3)}>
-              3
-            </button>
-            <span className="ellipsis">...</span>
-            <button className={`page-number ${currentPage === 15 ? "active" : ""}`} onClick={() => setCurrentPage(15)}>
-              15
-            </button>
-            <button className={`page-number ${currentPage === 16 ? "active" : ""}`} onClick={() => setCurrentPage(16)}>
-              16
-            </button>
+            {pageNumbers.map((pageNumber, index) =>
+              pageNumber === "ellipsis1" || pageNumber === "ellipsis2" ? (
+                <span key={`ellipsis-${index}`} className="ellipsis">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={pageNumber}
+                  className={`page-number ${currentPage === pageNumber ? "active" : ""}`}
+                  onClick={() => setCurrentPage(Number(pageNumber))}
+                >
+                  {pageNumber}
+                </button>
+              ),
+            )}
           </div>
 
           <button
             className="pagination-button next"
-            onClick={() => setCurrentPage(currentPage + 1)}
-            disabled={currentPage === 16}
+            onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+            disabled={currentPage === totalPages}
           >
-            <ChevronRight size={16} />
+            <ChevronRight size={16} color="green" />
           </button>
         </div>
       </div>

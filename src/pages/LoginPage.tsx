@@ -6,24 +6,41 @@ import { useState } from "react"
 import "../styles/login-page.scss"
 import lendsqrLogo from "../assets/logo.svg"
 import loginIllustration from "../assets/pablo-sign-in 1.svg"
+import toast, { Toaster } from "react-hot-toast";
+import { login } from "../context/useLogin"
+import { useNavigate } from "react-router-dom"
 
-interface LoginPageProps {
-  onLogin: () => void
-}
-
-const LoginPage = ({ onLogin }: LoginPageProps) => {
+const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async (email: string, password: string) => {
+      setIsLoading(true)
+      const response = await login(email, password)
+      if (response.success) {
+        // setIsAuthenticated(true)
+        toast.success("Logged in successfully");
+        navigate("/dashboard/users")
+      } else {
+        // Handle login failure here
+        toast.error("Login failed")
+        console.error("Login failed")
+      }
+      setIsLoading(false)
+    }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // In a real app, you would validate credentials here
-    onLogin()
+    handleLogin(email, password)
   }
 
   return (
     <div className="login-page">
+      <Toaster position="bottom-right" />
       <div className="login-container">
         <div className="login-left">
           <div className="logo-container">
@@ -68,8 +85,8 @@ const LoginPage = ({ onLogin }: LoginPageProps) => {
                 <a href="#forgot-password">FORGOT PASSWORD?</a>
               </div>
 
-              <button type="submit" className="login-button">
-                LOG IN
+              <button disabled={isLoading} type="submit" className="login-button">
+                {isLoading ? "Loading..." : "LOG IN"}
               </button>
             </form>
           </div>
