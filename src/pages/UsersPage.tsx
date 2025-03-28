@@ -217,7 +217,7 @@ const UsersPage = () => {
         <div className="stat-card">
           <div className="stat-icon users-icon">👥</div>
           <div className="stat-label">USERS</div>
-          <div className="stat-value">2,453</div>
+          <div className="stat-value">{mockUsers?.length}</div>
         </div>
         <div className="stat-card">
           <div className="stat-icon active-users-icon">👤</div>
@@ -252,6 +252,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                            className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -268,6 +269,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -277,6 +279,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -287,6 +290,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -298,13 +302,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -338,6 +343,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                           className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -354,6 +360,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -363,6 +370,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -373,6 +381,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -384,13 +393,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -424,6 +434,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                            className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -440,6 +451,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -449,6 +461,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -459,6 +472,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -470,13 +484,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -510,6 +525,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                            className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -526,6 +542,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -535,6 +552,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -545,6 +563,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -556,13 +575,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -596,6 +616,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                            className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -612,6 +633,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -621,6 +643,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -631,6 +654,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -642,13 +666,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -682,6 +707,7 @@ const UsersPage = () => {
                         <div className="filter-field">
                           <label>Organization</label>
                           <select
+                            className="input-style"
                             value={filters.organization}
                             onChange={(e) => handleFilterChange("organization", e.target.value)}
                           >
@@ -698,6 +724,7 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="User"
+                            className="input-style"
                             value={filters.userName}
                             onChange={(e) => handleFilterChange("username", e.target.value)}
                           />
@@ -707,6 +734,7 @@ const UsersPage = () => {
                           <input
                             type="email"
                             placeholder="Email"
+                            className="input-style"
                             value={filters.email}
                             onChange={(e) => handleFilterChange("email", e.target.value)}
                           />
@@ -717,6 +745,7 @@ const UsersPage = () => {
                             <input
                               type="text"
                               placeholder="Date"
+                              className="input-style"
                               value={filters.date}
                               onChange={(e) => handleFilterChange("date", e.target.value)}
                             />
@@ -728,13 +757,14 @@ const UsersPage = () => {
                           <input
                             type="text"
                             placeholder="Phone Number"
+                            className="input-style"
                             value={filters.phoneNumber}
                             onChange={(e) => handleFilterChange("phoneNumber", e.target.value)}
                           />
                         </div>
                         <div className="filter-field">
                           <label>Status</label>
-                          <select value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
+                          <select className="input-style" value={filters.status} onChange={(e) => handleFilterChange("status", e.target.value)}>
                             <option value="">Select</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -808,7 +838,6 @@ const UsersPage = () => {
               setCurrentPage(1) // Reset to first page when changing rows per page
             }}
           >
-            {/* <option value="5">5</option> */}
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="50">50</option>

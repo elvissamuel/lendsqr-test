@@ -16,6 +16,7 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const isDisabled = !email.trim() || !password.trim();
 
   const handleLogin = async (email: string, password: string) => {
       setIsLoading(true)
@@ -85,7 +86,7 @@ const LoginPage = () => {
                 <a href="#forgot-password">FORGOT PASSWORD?</a>
               </div>
 
-              <button disabled={isLoading} type="submit" className="login-button">
+              <button disabled={isDisabled || isLoading} type="submit" className="login-button">
                 {isLoading ? "Loading..." : "LOG IN"}
               </button>
             </form>

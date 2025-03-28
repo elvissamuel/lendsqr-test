@@ -97,6 +97,7 @@
       .login-form {
         .form-group {
           margin-bottom: 1.5rem;
+
           
           &.password-group {
             position: relative;
@@ -109,10 +110,16 @@
           border: 1px solid #D9DBE9;
           border-radius: 5px;
           font-size: 1rem;
+          background-color: transparent;
           
           &:focus {
             outline: none;
             border-color: #39CDCC;
+          }
+
+          &:disabled {
+            background-color: #545F7D;
+            cursor: none;
           }
         }
         

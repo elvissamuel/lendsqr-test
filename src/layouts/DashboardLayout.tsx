@@ -1,46 +1,16 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { Outlet, useLocation } from "react-router-dom"
 import { Search, Bell, ChevronDown, Menu, X } from "lucide-react"
 import "../styles/dashboard-layout.scss"
 import lendsqrLogo from "../assets/logo.svg"
 import userAvatar from "../assets/avatar.png"
-import { IAdmin } from "../models"
+// import { IAdmin } from "../models"
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const location = useLocation();
-  const navigate = useNavigate();
-  // const [user, setUser] = useState<IAdmin | null>(null);
-  const [showProfile, setShowProfile] = useState(false);
-  const [user, setUser] = useState(() => {
-    return JSON.parse(localStorage.getItem("lendsqr-user") || "null");
-  });
-
-  useEffect(() => {
-    const checkUser = () => {
-      const storedUser = localStorage.getItem("lendsqr-user");
-      setUser(storedUser ? JSON.parse(storedUser) : null);
-    };
-
-    // Run initially
-    checkUser();
-
-    // Add an event listener for storage changes
-    window.addEventListener("storage", checkUser);
-
-    return () => window.removeEventListener("storage", checkUser);
-  }, [setUser]);
-
-  useEffect(() => {
-    if (user === null) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-
-  if (user === null) return null;
-
+  const location = useLocation()
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen)
@@ -89,25 +59,11 @@ const DashboardLayout = () => {
           <div className="notifications">
             <Bell size={20} />
           </div>
-          <div className="user-profile" onClick={()=> setShowProfile(prev => !prev)}>
+          <div className="user-profile">
             <img src={userAvatar || "/placeholder.svg"} alt="User Avatar" className="avatar" />
-            <span className="username">{user.name}</span>
+            <span className="username">Adedeji</span>
             <ChevronDown size={16} />
           </div>
-          {
-            showProfile &&
-            <div className="dropdown-menu">
-              
-              <div className="dropdown-item" onClick={() => {
-                setUser(null);
-                localStorage.removeItem("lendsqr-user");
-                navigate("/login");
-              }}>
-                <span className="item-text">Logout</span>
-              </div>
-            </div>
-  
-          }
         </div>
       </header>
 

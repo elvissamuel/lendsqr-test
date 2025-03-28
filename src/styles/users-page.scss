@@ -131,6 +131,10 @@
           border-radius: 4px;
           box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
           margin-top: 0.5rem;
+
+          .input-style {
+            background-color: transparent;
+          }
           
           .filter-dropdown-content {
             padding: 1.5rem;
