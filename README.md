@@ -10,7 +10,7 @@ A React.js application with TypeScript and SCSS for the Lendsqr dashboard.
 - User details view
 - Responsive design
 
-## Getting Started
+## Getting Startedgit add 
 
 ### Prerequisites
 
