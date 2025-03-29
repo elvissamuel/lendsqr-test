@@ -42,9 +42,6 @@
       align-items: center;
       flex: 1;
       
-      @media (max-width: 768px) {
-        display: none; // Hide illustration on mobile to save space
-      }
       
       .illustration {
         max-width: 100%;
@@ -110,6 +107,7 @@
           border: 1px solid #D9DBE9;
           border-radius: 5px;
           font-size: 1rem;
+          color: #545F7D;
           background-color: transparent;
           
           &:focus {
